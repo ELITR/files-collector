@@ -1,3 +1,5 @@
+import platform, unicodedata
+
 class FolderStructure(object):
 
     def __init__(self, daily_schedule_file):
@@ -14,3 +16,30 @@ class FolderStructure(object):
             raise Exception("IncorrectEncoding") #Tell user to change encoding
 
         return contents
+
+    def get_paths(self):
+        slots = self.get_slots()
+        if platform.system() == 'Windows':
+            root = 'D:\\\\prezentace\\'
+        else:
+            root = '/home/prezentace'
+
+        paths = []
+        for slot in slots:
+            path = root + self.utf_to_ascii(slot) #URLS/file names in ascii
+            paths.append(path)
+
+        return paths
+
+    def get_slots(self):
+        slots = []
+        for line in self.contents:
+            line = line.split('\t')
+            slots.append(line[0])
+
+        return slots
+
+    def utf_to_ascii(self, name):
+        name = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore')
+        name =  name.decode('utf-8')
+        return name.replace(' ', '_').lower()

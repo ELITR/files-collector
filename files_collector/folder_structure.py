@@ -7,7 +7,7 @@ class FolderStructure(object):
     def get_file_content(self, file):
         contents = []
         try:
-            with open(file, encoding='utf-8', mode='r') as f:
+            with open(file, encoding='utf-8-sig', mode='r') as f:
                 for line in f:
                     contents.append(line)
         except UnicodeDecodeError: #Czech symbols files need to be saved as utf8

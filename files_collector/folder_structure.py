@@ -1,4 +1,4 @@
-import platform, unicodedata
+import os, platform, unicodedata
 
 class FolderStructure(object):
 
@@ -16,6 +16,14 @@ class FolderStructure(object):
             raise Exception("IncorrectEncoding") #Tell user to change encoding
 
         return contents
+
+    def create_folders(self):
+        paths = self.get_paths()
+        for path in paths:
+            try:
+                os.mkdir(path)
+            except FileExistsError:
+                continue
 
     def get_paths(self):
         slots = self.get_slots()

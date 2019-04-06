@@ -1,4 +1,4 @@
-import unittest
+import os, unittest
 from files_collector.folder_structure import FolderStructure
 
 class TestFolderStructure(unittest.TestCase):
@@ -30,3 +30,16 @@ class TestFolderStructure(unittest.TestCase):
         text = 'Náhodný český text'
         text_url = 'nahodny_cesky_text'
         assert text_url == f.utf_to_ascii(text)
+
+    def test_create_folders(self):
+        f = FolderStructure('D:\\files-collector\\tests\\utf8_program_dne_2019-04-01.txt')
+        f.create_folders()
+        os.rmdir('D:\\\\prezentace\\prednaska_1') # does not exist -> Exception
+        os.rmdir('D:\\\\prezentace\\prednaska_2')
+
+    def test_existing_folders(self):
+        os.mkdir('D:\\\\prezentace\\prednaska_1')
+        f = FolderStructure('D:\\files-collector\\tests\\utf8_program_dne_2019-04-01.txt')
+        f.create_folders() # allready exists -> no Exception
+        os.rmdir('D:\\\\prezentace\\prednaska_1')
+        os.rmdir('D:\\\\prezentace\\prednaska_2')

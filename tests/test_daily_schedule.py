@@ -14,3 +14,5 @@ def test_upload_file(client):
     res = client.post('/daily_schedule/', data=data)
     assert res.status_code == 200
     os.remove('D:\\program_dne\\program_dne.txt') #Does not exist -> Exception
+    os.rmdir('D:\\\\prezentace\\prednaska_1')
+    os.rmdir('D:\\\\prezentace\\prednaska_2')

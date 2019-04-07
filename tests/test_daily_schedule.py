@@ -25,3 +25,12 @@ def test_incorrect_file(client):
     res = client.post('/daily_schedule/', data=data)
     assert res.status_code == 200
     assert "Prosím nastavte kódování souboru na utf a zopakujte" in res.get_data(as_text=True)
+
+def test_word_file(client):
+    file = open('D:\\files-collector\\tests\\program_dne_2019-04-01.docx', 'rb')
+    data = {
+        'file': (file, 'program_dne.docx')
+    }
+    res = client.post('/daily_schedule/', data=data)
+    assert res.status_code == 200
+    assert "Prosím vkládejte pouze textové soubory (ne word, excel apod.)" in res.get_data(as_text=True)

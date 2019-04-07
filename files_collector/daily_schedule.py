@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash
 from werkzeug.utils import secure_filename
 from .folder_structure import FolderStructure
+import mimetypes
 
 bp = Blueprint('daily_schedule', __name__, url_prefix='/daily_schedule')
 
@@ -22,5 +23,9 @@ def create_folders(daily_schedule):
         fd.create_folders()
     except:
         message = 'Prosím nastavte kódování souboru na utf a zopakujte'
+
+    mime = mimetypes.guess_type(daily_schedule)
+    if mime[0] != 'text/plain':
+        message = "Prosím vkládejte pouze textové soubory (ne word, excel apod.)"
 
     return message

@@ -3,16 +3,24 @@
   <head>
     <meta charset="utf-8">
     <title>Files Collector</title>
+    <link rel="stylesheet" href="/static/main.css">
   </head>
   <body>
-    {% block content %}{% endblock %}
+    <div class="sidebar">
+      <a href="#">test1</a><br>
+      <a href="#">test2</a><br>
+    </div>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <p>{{ message }}</p>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+    <div class="content">
+      {% block content %}{% endblock %}
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
   </body>
 </html>

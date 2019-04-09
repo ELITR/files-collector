@@ -6,12 +6,6 @@
     <link rel="stylesheet" href="/static/main.css">
   </head>
   <body>
-    <div class="sidebar">
-      <a href="#">test1</a><br>
-      <a href="#">test2</a><br>
-    </div>
-
-    <div class="content">
       {% block content %}{% endblock %}
 
       {% with messages = get_flashed_messages() %}
@@ -21,6 +15,5 @@
           {% endfor %}
         {% endif %}
       {% endwith %}
-    </div>
   </body>
 </html>

@@ -13,7 +13,7 @@ def upload_daily_schedule():
         file.save(file_path)
         flash(create_folders(file_path))
 
-    return render_template('daily_schedule/daily_schedule.html')
+    return render_template('daily_schedule/daily_schedule.html', menu = ['test', 'test2', 'test3'])
 
 def create_folders(daily_schedule):
     message = 'Načtení programu dne se povedlo'

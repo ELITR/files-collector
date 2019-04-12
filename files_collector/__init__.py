@@ -19,3 +19,6 @@ def create_app(test_config=None):
 def load_blueprints(app):
     from . import daily_schedule
     app.register_blueprint(daily_schedule.bp)
+
+    from . import file_slot
+    app.register_blueprint(file_slot.bp)

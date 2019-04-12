@@ -44,3 +44,6 @@ def test_sidebar(client):
     assert res.status_code == 200
     assert "prednaska_1" in res.get_data(as_text=True)
     assert "prednaska_1" in res.get_data(as_text=True)
+    os.remove('D:\\program_dne\\program_dne.txt') #Does not exist -> Exception
+    os.rmdir('D:\\\\prezentace\\prednaska_1')
+    os.rmdir('D:\\\\prezentace\\prednaska_2')

@@ -1,6 +1,6 @@
 .sidebar {
     height: 100%;
-    width: 180 px;
+    width: 5em;
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
 }
 
 .content {
-  margin-left: 180px;
+  margin-left: 15em;
 }
 
 .sidebar a {

@@ -37,3 +37,18 @@ def test_list_files(client):
 
     os.remove('D:\\prezentace\\prez1\\file.pptx')
     os.rmdir('D:\\\\prezentace\\prez1')
+
+def test_upload_file(client):
+    path = 'D:\\prezentace\\prez1\\'
+    os.mkdir(path)
+
+    file = open('D:\\files-collector\\tests\\testovaci_prezentace.pptx', 'rb')
+    data = {
+        'file': (file, 'testovaci_prezentace.pptx')
+    }
+    res = client.post('/prez1', data=data)
+    assert res.status_code == 200
+    assert "testovaci_prezentace.pptx" in res.get_data(as_text=True)
+
+    os.remove('D:\\prezentace\\prez1\\testovaci_prezentace.pptx')
+    os.rmdir('D:\\\\prezentace\\prez1')

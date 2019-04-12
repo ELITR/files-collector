@@ -8,6 +8,12 @@
           <li>{{ file }}</li>
         {% endfor %}
       </ul>
+      <p>Nahrát soubor:</p>
+      <form method="post" enctype=multipart/form-data>
+        <input type="file" name="file">
+        <br>
+        <input type="submit" value="nahrát">
+      </form>
     </div>
     <div class="sidebar">
       {% include '/sidebar.html' %}

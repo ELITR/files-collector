@@ -3,6 +3,11 @@
 {% block content %}
     <div class="content">
       <p>Na tomhle místě jsou soubory:</p>
+      <ul>
+        {% for file in file_names %}
+          <li>{{ file }}</li>
+        {% endfor %}
+      </ul>
     </div>
     <div class="sidebar">
       {% include '/sidebar.html' %}

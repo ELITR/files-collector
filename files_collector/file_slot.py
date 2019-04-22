@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, abort
 from werkzeug.utils import secure_filename
 from .folder_browser import FolderBrowser
+import os
 
 bp = Blueprint('file_slot', __name__, url_prefix='/')
 
@@ -11,7 +12,10 @@ def file_slot(slot_url):
     folder_names = root.folder_names
 
     if request.method == 'POST' and slot_url in folder_names:
-        upload_file(slot_url)
+        if 'delete' in request.form:
+            delete_files(slot_url)
+        else:
+            upload_file(slot_url)
 
     if slot_url in folder_names:
         return render_file_slot(slot_url, folder_names)
@@ -22,6 +26,12 @@ def upload_file(slot_url):
     file = request.files['file']
     file_path = 'D:\\prezentace\\' + slot_url + '\\' + secure_filename(file.filename)
     file.save(file_path)
+
+def delete_files(slot_url):
+    files = request.form.getlist('to_delete')
+    for file in files:
+        file_path = 'D:\\prezentace\\' + slot_url + '\\' + file
+        os.remove(file_path)
 
 def render_file_slot(slot_url, folder_names):
     current_dir = FolderBrowser('D:\\prezentace\\' + slot_url + '\\')

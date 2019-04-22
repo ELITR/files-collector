@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+    <title>Files Collector</title>
+    <link rel="stylesheet" href="/static/main.css">
+  </head>
+  <body>
+      {% block content %}{% endblock %}
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <p style="margin-left:15em">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+  </body>
+</html>

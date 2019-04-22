@@ -1,0 +1,23 @@
+.sidebar {
+    height: 100%;
+    width: 5em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #eee;
+    padding-top: 20px;
+    padding-right: 100px;
+    padding-left: 20px;
+}
+
+.content {
+  margin-left: 15em;
+}
+
+.sidebar a {
+  color: #2196F3;
+}
+
+.sidebar a:hover {
+  color: black;
+}

@@ -19,16 +19,16 @@ def upload_daily_schedule():
     return render_template('daily_schedule/daily_schedule.html', menu = menu)
 
 def create_folders(daily_schedule):
-    message = 'Načtení programu dne se povedlo'
+    message = 'Daily schedule has been uploaded successfully'
 
     try:
         fd = FolderStructure(daily_schedule)
         fd.create_folders()
     except:
-        message = 'Prosím nastavte kódování souboru na utf a zopakujte'
+        message = 'An error has occured. Please set the encoding to utf-8 and repeat'
 
     mime = mimetypes.guess_type(daily_schedule)
     if mime[0] != 'text/plain':
-        message = "Prosím vkládejte pouze textové soubory (ne word, excel apod.)"
+        message = "An error has occured. Please upload text files only (no word, pptx...)"
 
     return message

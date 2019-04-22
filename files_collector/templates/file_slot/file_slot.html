@@ -3,16 +3,16 @@
 {% block content %}
     <div class="content">
       {% if file_names != [] %}
-        <p>Na tomhle místě jsou soubory:</p>
+        <p>This folder contains files:</p>
         <ul>
           {% for file in file_names %}
             <li>{{ file }}</li>
           {% endfor %}
         </ul>
       {%else %}
-        <p><em>Na tomhle místě nějsou žádné soubory</em></p>
+        <p><em>There aren't any files in this directory</em></p>
       {% endif %}
-      <p>Nahrát soubor:</p>
+      <p>Upload file:</p>
       <form method="post" enctype=multipart/form-data>
         <input type="file" name="file">
         <br>

@@ -39,5 +39,6 @@ def render_file_slot(slot_url, folder_names):
     file_names = current_dir.file_names
     return render_template('file_slot/file_slot.html',
                             menu = folder_names,
-                            file_names = file_names
+                            file_names = file_names,
+                            slot_url = slot_url
                           )

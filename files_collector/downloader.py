@@ -1,22 +1,25 @@
 from flask import Blueprint, send_file, abort
 from .folder_browser import FolderBrowser
 from .auth import auth
+from .paths import Paths
 
 bp = Blueprint('downloader', __name__, url_prefix='/<slot_url>/<filename>')
 
 @bp.route('/')
 def downloader(slot_url, filename):
-    root = FolderBrowser('D:\\prezentace\\')
+    documents_folder = Paths().documents_path
+    delimiter = Paths().delimiter
+    root = FolderBrowser(documents_folder)
     root.list_folders()
     folder_names = root.folder_names
 
     if slot_url in folder_names:
-        current_dir = FolderBrowser('D:\\prezentace\\' + slot_url + '\\')
+        current_dir = FolderBrowser(documents_folder + slot_url + delimiter)
         current_dir.list_files()
         files_list = current_dir.file_names
 
     if slot_url in folder_names and filename in files_list:
-        path = 'D:\\prezentace\\' + slot_url + '\\' + filename
+        path = documents_folder + slot_url + delimiter + filename
         return send_file_with_auth(path)
     else:
         return abort(404)

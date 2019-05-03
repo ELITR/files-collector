@@ -1,5 +1,6 @@
 from flask_httpauth import HTTPBasicAuth
 import hashlib
+from .paths import Paths
 
 auth = HTTPBasicAuth()
 
@@ -11,7 +12,7 @@ def verify_pw(username, password):
     return source.hexdigest() == target
 
 def get_target_pw(username):
-    conf = "D:\\files-collector\\tests\\config.conf"
+    conf = Paths().config_path
     with open(conf, 'r') as c:
         for line in c:
             line = line.replace(" ", "")

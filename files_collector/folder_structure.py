@@ -1,4 +1,5 @@
 import os, platform, unicodedata
+from .paths import Paths
 
 class FolderStructure(object):
 
@@ -27,10 +28,7 @@ class FolderStructure(object):
 
     def get_paths(self):
         slots = self.get_slots()
-        if platform.system() == 'Windows':
-            root = 'D:\\\\prezentace\\'
-        else:
-            root = '/home/prezentace'
+        root = Paths().documents_path
 
         paths = []
         for slot in slots:

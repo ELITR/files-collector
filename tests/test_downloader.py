@@ -29,4 +29,4 @@ def test_download(client):
     assert res.status_code == 404
 
     with client.get('/prez1/test_download_file.pptx/') as res:
-        assert res.status_code == 200
+        assert res.status_code == 401

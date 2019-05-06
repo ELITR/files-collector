@@ -20,7 +20,7 @@ def downloader(slot_url, filename):
 
     if slot_url in folder_names and filename in files_list:
         path = documents_folder + slot_url + delimiter + filename
-        if needs_auth():
+        if needs_auth(slot_url):
             return send_file_with_auth(path)
         else:
             return send_file(path, as_attachment = True)
@@ -31,10 +31,13 @@ def downloader(slot_url, filename):
 def send_file_with_auth(path):
     return send_file(path, as_attachment = True)
 
-def needs_auth():
+def needs_auth(slot):
     config = Paths().config_path
     try:
-        open(config, 'r')
-        return True
+        with open(config, 'r') as conf:
+            for line in conf:
+                line = line.split(":")
+                if line[0] == slot:
+                    return True
     except FileNotFoundError:
         return False

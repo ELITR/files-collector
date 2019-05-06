@@ -13,7 +13,7 @@ def test_incorrect_download(client):
     res = client.get('/prednaska_1/testovaci_prezentace.pptx/404')
     assert res.status_code == 404
 
-def test_download(client):
+def test_download_no_conf(client):
     path = 'D:\\prezentace\\prez1\\'
     os.mkdir(path)
 
@@ -35,7 +35,7 @@ def test_download(client):
     os.rename("D:\\files-collector\\tests\\config2.conf",
               "D:\\files-collector\\tests\\config.conf")
 
-def test_auth_download(client):
+def test_download_no_auth(client):
     path = 'D:\\prezentace\\prez1\\'
     os.mkdir(path)
 
@@ -51,4 +51,22 @@ def test_auth_download(client):
     assert res.status_code == 404
 
     with client.get('/prez1/test_download_file.pptx/') as res:
+        assert res.status_code == 200
+
+def test_download_with_auth(client):
+    path = 'D:\\prezentace\\prednaska_1\\'
+    os.mkdir(path)
+
+    file = open('D:\\files-collector\\tests\\testovaci_prezentace.pptx', 'rb')
+    data = {
+        'file': (file, 'test_download_file.pptx')
+    }
+    res = client.post('/prednaska_1', data=data)
+    assert res.status_code == 200
+    assert "test_download_file.pptx" in res.get_data(as_text=True)
+
+    res = client.get('/prednaska_1/a/')
+    assert res.status_code == 404
+
+    with client.get('/prednaska_1/test_download_file.pptx/') as res:
         assert res.status_code == 401

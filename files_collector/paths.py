@@ -23,7 +23,7 @@ class Paths(object):
         if platform.system() == 'Windows':
             return 'D:\\\\'
         else:
-            return '/home/'
+            return '/home/master/'
 
     def get_system_delimiter(self):
         if platform.system() == 'Windows':

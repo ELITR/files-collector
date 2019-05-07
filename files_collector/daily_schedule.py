@@ -29,7 +29,7 @@ def create_folders(daily_schedule):
         message = 'An error has occured. Please set the encoding to utf-8 and repeat'
 
     mime = mimetypes.guess_type(daily_schedule)
-    if mime[0] != 'text/plain':
+    if mime[0] is not None and mime[0] != 'text/plain':
         message = "An error has occured. Please upload text files only (no word, pptx...)"
 
     return message

@@ -9,7 +9,7 @@ def test_correct_url(client):
     client.post('/daily_schedule/', data=data)
     res = client.get('/prednaska_1')
     assert res.status_code == 200
-    assert "Na tomhle místě jsou soubory:" in res.get_data(as_text=True)
+    assert "There aren't any files in this directory" in res.get_data(as_text=True)
     os.remove('D:\\program_dne\\program_dne.txt') #Does not exist -> Exception
     os.rmdir('D:\\\\prezentace\\prednaska_1')
     os.rmdir('D:\\\\prezentace\\prednaska_2')

@@ -3,20 +3,29 @@
 {% block content %}
     <div class="content">
       {% if file_names != [] %}
-        <p>Na tomhle místě jsou soubory:</p>
-        <ul>
-          {% for file in file_names %}
-            <li>{{ file }}</li>
-          {% endfor %}
-        </ul>
+        <p>This folder contains files:</p>
+          <form method="post" enctype=multipart/form-data>
+            <ul>
+              {% for file in file_names %}
+                <li>
+                  <a href="{{ slot_url }}/{{ file }}">{{ file }}</a>
+                  <input type="checkbox" name="to_delete" value={{ file }}>
+                </li>
+              {% endfor %}
+            </ul>
+            <p>
+              To delete file(s), select them from list above and click
+              <input type="submit" name="delete" value="delete">
+            </p>
+          </form>
       {%else %}
-        <p><em>Na tomhle místě nějsou žádné soubory</em></p>
+        <p><em>There aren't any files in this directory</em></p>
       {% endif %}
-      <p>Nahrát soubor:</p>
+      <p>Upload file:</p>
       <form method="post" enctype=multipart/form-data>
         <input type="file" name="file">
         <br>
-        <input type="submit" value="nahrát">
+        <input type="submit" name="upload" value="upload">
       </form>
     </div>
     <div class="sidebar">

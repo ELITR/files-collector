@@ -25,6 +25,20 @@ class FolderBrowser(object):
         path = documents_path + path
         self.root_folder = path
 
+    def get_urls_from_paths(self):
+        urls = []
+        for path in self.folder_paths:
+            urls.append(self.get_url(path))
+
+        if self.root_folder != Paths().documents_path:
+            urls.append(self.get_url(self.root_folder))
+
+        return urls
+
+    def get_url(self, path):
+        url = path.replace(Paths().documents_path, '')
+        url = url.replace(Paths().delimiter, '/')
+        return '/presentations/' + url
 
     def list_files(self):
         for file in os.listdir(self.root_folder):

@@ -1,5 +1,6 @@
 from files_collector.folder_browser import FolderBrowser
 import unittest
+import os
 
 class TestFolderBrowser(unittest.TestCase):
 
@@ -35,3 +36,17 @@ class TestFolderBrowser(unittest.TestCase):
         url = '/'
         fd.set_root_from_url(url)
         assert fd.root_folder == 'D:\\\\prezentace\\\\'
+
+    def test_get_urls_from_paths(client):
+        os.mkdir("D:\\\\prezentace\\p1\\")
+        os.mkdir("D:\\\\prezentace\\p2\\")
+        os.mkdir("D:\\\\prezentace\\p1\\a\\")
+        os.mkdir("D:\\\\prezentace\\p1\\b\\")
+
+        fd = FolderBrowser("D:\\\\prezentace\\p1\\")
+        urls = ['/presentations/p1/a/', '/presentations/p1/b/', '/presentations/p1/']
+        assert fd.get_urls_from_paths() == urls
+
+        fd = FolderBrowser("D:\\\\prezentace\\")
+        urls = ['/presentations/p1/', '/presentations/p2/']
+        assert fd.get_urls_from_paths() == urls

@@ -27,3 +27,6 @@ def load_blueprints(app):
 
     from . import downloader
     app.register_blueprint(downloader.bp)
+
+    from . import index
+    app.register_blueprint(index.bp)

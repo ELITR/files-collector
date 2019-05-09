@@ -8,7 +8,7 @@ bp = Blueprint('file_slot', __name__, url_prefix='/')
 documents_path = Paths().documents_path
 delimiter = Paths().delimiter
 
-@bp.route('/<slot_url>', methods=('GET', 'POST'))
+@bp.route('/presentations/<slot_url>/', methods=('GET', 'POST'))
 def file_slot(slot_url):
     root = FolderBrowser(documents_path)
     root.list_folders()
@@ -42,6 +42,5 @@ def render_file_slot(slot_url, folder_names):
     file_names = current_dir.file_names
     return render_template('file_slot/file_slot.html',
                             menu = folder_names,
-                            file_names = file_names,
-                            slot_url = slot_url
+                            file_names = file_names
                           )

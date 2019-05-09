@@ -1,11 +1,13 @@
 import os
 from flask import Flask
+from .regex_converter import RegexConverter
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev'
     )
+    app.url_map.converters['regex'] = RegexConverter
 
     load_blueprints(app)
 
@@ -25,3 +27,6 @@ def load_blueprints(app):
 
     from . import downloader
     app.register_blueprint(downloader.bp)
+
+    from . import index
+    app.register_blueprint(index.bp)

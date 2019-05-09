@@ -7,7 +7,7 @@ def test_correct_url(client):
         'file': (file, 'program_dne.txt')
     }
     client.post('/daily_schedule/', data=data)
-    res = client.get('/prednaska_1')
+    res = client.get('/presentations/prednaska_1/')
     assert res.status_code == 200
     assert "There aren't any files in this directory" in res.get_data(as_text=True)
     os.remove('D:\\program_dne\\program_dne.txt') #Does not exist -> Exception
@@ -31,7 +31,7 @@ def test_list_files(client):
     os.mkdir(path)
     open(path + 'file.pptx', 'a').close()
 
-    res = client.get('/prez1')
+    res = client.get('/presentations/prez1/')
     assert res.status_code == 200
     assert "file.pptx" in res.get_data(as_text=True)
 
@@ -46,7 +46,7 @@ def test_upload_file(client):
     data = {
         'file': (file, 'testovaci_prezentace.pptx')
     }
-    res = client.post('/prez1', data=data)
+    res = client.post('/presentations/prez1/', data=data)
     assert res.status_code == 200
     assert "testovaci_prezentace.pptx" in res.get_data(as_text=True)
 

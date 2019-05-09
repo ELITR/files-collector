@@ -15,6 +15,17 @@ class FolderBrowser(object):
         except FileNotFoundError:
             raise Exception("FolderNotFound")
 
+    def set_root_from_url(self, url):
+        delimiter = Paths().delimiter
+        documents_path = Paths().documents_path
+
+        url = url.split("/")
+        url = [delimiter + x for i,x in enumerate(url) if i > 0]
+        path = ''.join(url)
+        path = documents_path + path
+        self.root_folder = path
+
+
     def list_files(self):
         for file in os.listdir(self.root_folder):
             file_path = self.root_folder + file

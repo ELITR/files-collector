@@ -21,7 +21,7 @@ class FolderBrowser(object):
 
         url = url.replace("data-collector/presentations", "")
         url = url.split("/")
-        url = [delimiter + x for i,x in enumerate(url) if i > 1]
+        url = [x + delimiter for i,x in enumerate(url) if i > 1 and x != '']
         path = ''.join(url)
         path = documents_path + path
         self.root_folder = path

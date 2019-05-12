@@ -28,11 +28,11 @@ class TestFolderBrowser(unittest.TestCase):
 
         url = '/data-collector/presentations/prezentace1/'
         fd.set_root_from_url(url)
-        assert fd.root_folder == 'D:\\\\prezentace\\\\prezentace1\\'
+        assert fd.root_folder == 'D:\\\\prezentace\\prezentace1\\'
 
         url = '/data-collector/presentations/prezentace1/test/'
         fd.set_root_from_url(url)
-        assert fd.root_folder == 'D:\\\\prezentace\\\\prezentace1\\test\\'
+        assert fd.root_folder == 'D:\\\\prezentace\\prezentace1\\test\\'
 
         url = '/'
         fd.set_root_from_url(url)

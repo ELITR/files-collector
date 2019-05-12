@@ -14,7 +14,7 @@ def verify_pw(username, password):
 
 def get_target_pw(username):
     conf = Paths().config_path
-    url_username = request.path.split("/")[2]
+    url_username = request.path.split("/")[3]
     with open(conf, 'r') as c:
         for line in c:
             line = line.replace(" ", "")

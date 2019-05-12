@@ -38,7 +38,7 @@ class FolderBrowser(object):
     def get_url(self, path):
         url = path.replace(Paths().documents_path, '')
         url = url.replace(Paths().delimiter, '/')
-        return '/presentations/' + url
+        return '/data-collector/presentations/' + url
 
     def list_files(self):
         for file in os.listdir(self.root_folder):

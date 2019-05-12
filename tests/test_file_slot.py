@@ -6,8 +6,8 @@ def test_correct_url(client):
     data = {
         'file': (file, 'program_dne.txt')
     }
-    client.post('/daily_schedule/', data=data)
-    res = client.get('/presentations/prednaska_1/')
+    client.post('/data-collector/daily_schedule/', data=data)
+    res = client.get('/data-collector/presentations/prednaska_1/')
     assert res.status_code == 200
     assert "There aren't any files in this directory" in res.get_data(as_text=True)
     os.remove('D:\\program_dne\\program_dne.txt') #Does not exist -> Exception
@@ -19,8 +19,8 @@ def test_incorrect_url(client):
     data = {
         'file': (file, 'program_dne.txt')
     }
-    client.post('/daily_schedule/', data=data)
-    res = client.get('/prednaska_3')
+    client.post('/data-collector/daily_schedule/', data=data)
+    res = client.get('/data-collector/presentations/prednaska_4/')
     assert res.status_code == 404
     os.remove('D:\\program_dne\\program_dne.txt') #Does not exist -> Exception
     os.rmdir('D:\\\\prezentace\\prednaska_1')
@@ -31,7 +31,7 @@ def test_list_files(client):
     os.mkdir(path)
     open(path + 'file.pptx', 'a').close()
 
-    res = client.get('/presentations/prez1/')
+    res = client.get('/data-collector/presentations/prez1/')
     assert res.status_code == 200
     assert "file.pptx" in res.get_data(as_text=True)
 
@@ -46,7 +46,7 @@ def test_upload_file(client):
     data = {
         'file': (file, 'testovaci_prezentace.pptx')
     }
-    res = client.post('/presentations/prez1/', data=data)
+    res = client.post('/data-collector/presentations/prez1/', data=data)
     assert res.status_code == 200
     assert "testovaci_prezentace.pptx" in res.get_data(as_text=True)
 

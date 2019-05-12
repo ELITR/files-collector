@@ -5,7 +5,7 @@ from .folder_browser import FolderBrowser
 import mimetypes
 from .paths import Paths
 
-bp = Blueprint('daily_schedule', __name__, url_prefix='/daily_schedule')
+bp = Blueprint('daily_schedule', __name__, url_prefix='/data-collector/daily_schedule')
 
 @bp.route('/', methods=('GET', 'POST'))
 def upload_daily_schedule():

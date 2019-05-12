@@ -1,3 +1,4 @@
+
 from files_collector.folder_browser import FolderBrowser
 import unittest
 import os
@@ -44,9 +45,9 @@ class TestFolderBrowser(unittest.TestCase):
         os.mkdir("D:\\\\prezentace\\p1\\b\\")
 
         fd = FolderBrowser("D:\\\\prezentace\\p1\\")
-        urls = ['/presentations/p1/a/', '/presentations/p1/b/', '/presentations/p1/']
+        urls = ['/data-collector/presentations/p1/a/', '/data-collector/presentations/p1/b/', '/data-collector/presentations/p1/']
         assert fd.get_urls_from_paths() == urls
 
         fd = FolderBrowser("D:\\\\prezentace\\")
-        urls = ['/presentations/p1/', '/presentations/p2/']
+        urls = ['/data-collector/presentations/p1/', '/data-collector/presentations/p2/']
         assert fd.get_urls_from_paths() == urls

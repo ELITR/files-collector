@@ -49,6 +49,7 @@ class FolderBrowser(object):
 
     def list_folders(self):
         self.folder_names = []
+        self.folder_paths = []
         for file in os.listdir(self.root_folder):
             file_path = self.root_folder + file + Paths().delimiter
             if os.path.isdir(file_path):

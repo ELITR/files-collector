@@ -31,8 +31,10 @@ class FolderBrowser(object):
         for path in self.folder_paths:
             urls.append(self.get_url(path))
 
-        if self.root_folder != Paths().documents_path:
-            urls.append(self.get_url(self.root_folder))
+
+        parrent_url = self.get_parrent_url(self.root_folder)
+        if parrent_url != '/data-collector/presentations/':
+            urls.append(parrent_url)
 
         return urls
 
@@ -40,6 +42,12 @@ class FolderBrowser(object):
         url = path.replace(Paths().documents_path, '')
         url = url.replace(Paths().delimiter, '/')
         return '/data-collector/presentations/' + url
+
+    def get_parrent_url(self, path):
+        url = self.get_url(path)
+        index = url.rfind('/', 0, len(url) - 1)
+        parrent_url = url[:index + 1]
+        return parrent_url
 
     def list_files(self):
         for file in os.listdir(self.root_folder):

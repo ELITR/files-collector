@@ -45,9 +45,14 @@ class TestFolderBrowser(unittest.TestCase):
         os.mkdir("D:\\\\prezentace\\p1\\b\\")
 
         fd = FolderBrowser("D:\\\\prezentace\\p1\\")
-        urls = ['/data-collector/presentations/p1/a/', '/data-collector/presentations/p1/b/', '/data-collector/presentations/p1/']
+        urls = ['/data-collector/presentations/p1/a/', '/data-collector/presentations/p1/b/']
         assert fd.get_urls_from_paths() == urls
 
-        fd = FolderBrowser("D:\\\\prezentace\\")
-        urls = ['/data-collector/presentations/p1/', '/data-collector/presentations/p2/']
+        fd = FolderBrowser("D:\\\\prezentace\\p1\\a\\")
+        urls = ['/data-collector/presentations/p1/']
         assert fd.get_urls_from_paths() == urls
+
+        os.rmdir("D:\\\\prezentace\\p1\\a\\")
+        os.rmdir("D:\\\\prezentace\\p1\\b\\")
+        os.rmdir("D:\\\\prezentace\\p1\\")
+        os.rmdir("D:\\\\prezentace\\p2\\")

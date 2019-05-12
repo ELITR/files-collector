@@ -26,17 +26,17 @@ class TestFolderBrowser(unittest.TestCase):
     def test_set_root_from_url(client):
         fd = FolderBrowser('D:\\prezentace\\')
 
-        url = '/prezentace1/'
+        url = '/data-collector/presentations/prezentace1/'
         fd.set_root_from_url(url)
         assert fd.root_folder == 'D:\\\\prezentace\\\\prezentace1\\'
 
-        url = '/prezentace1/test/'
+        url = '/data-collector/presentations/prezentace1/test/'
         fd.set_root_from_url(url)
         assert fd.root_folder == 'D:\\\\prezentace\\\\prezentace1\\test\\'
 
         url = '/'
         fd.set_root_from_url(url)
-        assert fd.root_folder == 'D:\\\\prezentace\\\\'
+        assert fd.root_folder == 'D:\\\\prezentace\\'
 
     def test_get_urls_from_paths(client):
         os.mkdir("D:\\\\prezentace\\p1\\")

@@ -17,10 +17,13 @@ def downloader(url, filename):
     file_slot = get_file_slot(url)
     path = fd.root_folder + filename
 
-    if needs_auth(file_slot):
-        return send_file_with_auth(path)
-    else:
-        return send_file(path, as_attachment = True)
+    try:
+        if needs_auth(file_slot):
+            return send_file_with_auth(path)
+        else:
+            return send_file(path, as_attachment = True)
+    except FileNotFoundError:
+        return abort(404)
 
 def get_file_slot(url):
     i = url.rfind('/')

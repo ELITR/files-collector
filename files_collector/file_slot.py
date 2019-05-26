@@ -12,7 +12,12 @@ delimiter = Paths().delimiter
 def file_slot(url):
     fd = FolderBrowser(documents_path)
     fd.set_root_from_url(request.path)
-    fd.list_folders()
+
+    try:
+        fd.list_folders()
+    except FileNotFoundError:
+        return abort(404)
+        
     folder_names = fd.get_urls_from_paths()
     fd.list_files()
     file_names = fd.file_names

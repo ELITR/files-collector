@@ -7,10 +7,10 @@ def test_incorrect_download(client):
         'file': (file, 'program_dne.txt')
     }
     client.post('/daily_schedule/', data=data)
-    res = client.get('/data-collector/a/testovaci_prezentace.pptx/')
+    res = client.get('/presentations/a/testovaci_prezentace.pptx/')
     assert res.status_code == 404
 
-    res = client.get('/data-collector/prednaska_1/testovaci_prezentace.pptx/404')
+    res = client.get('/presentations/prednaska_1/testovaci_prezentace.pptx/404')
     assert res.status_code == 404
 
 def test_download_no_conf(client):

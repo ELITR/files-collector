@@ -19,7 +19,7 @@ class FolderBrowser(object):
         delimiter = Paths().delimiter
         documents_path = Paths().documents_path
 
-        url = url.replace("data-collector/presentations", "")
+        url = url.replace("/presentations", "")
         url = url.split("/")
         url = [x + delimiter for i,x in enumerate(url) if i > 1 and x != '']
         path = ''.join(url)

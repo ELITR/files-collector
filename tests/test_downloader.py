@@ -21,16 +21,16 @@ def test_download_no_conf(client):
     data = {
         'file': (file, 'test_download_file.pptx')
     }
-    res = client.post('/data-collector/presentations/prez1/', data=data)
+    res = client.post('/presentations/prez1/', data=data)
     assert res.status_code == 200
     assert "test_download_file.pptx" in res.get_data(as_text=True)
 
-    res = client.get('/data-collector/presentations/prez1/a/')
+    res = client.get('/presentations/prez1/a/')
     assert res.status_code == 404
 
     os.rename("D:\\files-collector\\tests\\config.conf",
               "D:\\files-collector\\tests\\config2.conf")
-    with client.get('/data-collector/presentations/prez1/test_download_file.pptx/') as res:
+    with client.get('/presentations/prez1/test_download_file.pptx/') as res:
         assert res.status_code == 200
     os.rename("D:\\files-collector\\tests\\config2.conf",
               "D:\\files-collector\\tests\\config.conf")
@@ -43,14 +43,14 @@ def test_download_no_auth(client):
     data = {
         'file': (file, 'test_download_file.pptx')
     }
-    res = client.post('/data-collector/presentations/prez1/', data=data)
+    res = client.post('/presentations/prez1/', data=data)
     assert res.status_code == 200
     assert "test_download_file.pptx" in res.get_data(as_text=True)
 
-    res = client.get('/data-collector/presentations/prez1/a/')
+    res = client.get('/presentations/prez1/a/')
     assert res.status_code == 404
 
-    with client.get('/data-collector/presentations/prez1/test_download_file.pptx/') as res:
+    with client.get('/presentations/prez1/test_download_file.pptx/') as res:
         assert res.status_code == 200
 
 def test_download_with_auth(client):
@@ -61,12 +61,12 @@ def test_download_with_auth(client):
     data = {
         'file': (file, 'test_download_file.pptx')
     }
-    res = client.post('/data-collector/presentations/prednaska_1/', data=data)
+    res = client.post('/presentations/prednaska_1/', data=data)
     assert res.status_code == 200
     assert "test_download_file.pptx" in res.get_data(as_text=True)
 
-    res = client.get('/data-collector/presentations/prednaska_1/a/')
+    res = client.get('/presentations/prednaska_1/a/')
     assert res.status_code == 404
 
-    with client.get('/data-collector/presentations/prednaska_1/test_download_file.pptx/') as res:
+    with client.get('/presentations/prednaska_1/test_download_file.pptx/') as res:
         assert res.status_code == 401

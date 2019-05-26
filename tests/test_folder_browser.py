@@ -26,7 +26,7 @@ class TestFolderBrowser(unittest.TestCase):
     def test_set_root_from_url(client):
         fd = FolderBrowser('D:\\prezentace\\')
 
-        url = '/data-collector/presentations/prezentace1/'
+        url = '/data-collecto/presentations/prezentace1/'
         fd.set_root_from_url(url)
         assert fd.root_folder == 'D:\\\\prezentace\\prezentace1\\'
 

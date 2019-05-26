@@ -8,7 +8,7 @@ bp = Blueprint('file_slot', __name__, url_prefix='/')
 documents_path = Paths().documents_path
 delimiter = Paths().delimiter
 
-@bp.route('/data-collector/presentations/<slot_url>/', methods=('GET', 'POST'))
+@bp.route('/presentations/<slot_url>/', methods=('GET', 'POST'))
 def file_slot(slot_url):
     root = FolderBrowser(documents_path)
     root.list_folders()

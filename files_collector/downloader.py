@@ -3,7 +3,7 @@ from .folder_browser import FolderBrowser
 from .auth import auth
 from .paths import Paths
 
-bp = Blueprint('downloader', __name__, url_prefix='/data-collector/presentations/<slot_url>/<filename>')
+bp = Blueprint('downloader', __name__, url_prefix='/presentations/<slot_url>/<filename>')
 
 @bp.route('/')
 def downloader(slot_url, filename):

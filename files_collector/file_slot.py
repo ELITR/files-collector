@@ -17,27 +17,31 @@ def file_slot(url):
     fd.list_files()
     file_names = fd.file_names
 
+    if request.method == 'POST':
+        if 'delete' in request.form:
+            delete_files(fd.root_folder)
+        else:
+            upload_file(fd.root_folder)
+
+    fd.list_files()
+    file_names = fd.file_names
     return render_template('file_slot/file_slot.html',
                             menu = folder_names,
                             file_names = file_names
                           )
 
+def get_file_slot(url):
+    i = url.rfind('/')
+    j = url[:i-1].rfind('/') + 1
+    return url[j:i]
+
 def upload_file(slot_url):
     file = request.files['file']
-    file_path = documents_path + slot_url + delimiter + secure_filename(file.filename)
+    file_path = slot_url + delimiter + secure_filename(file.filename)
     file.save(file_path)
 
 def delete_files(slot_url):
     files = request.form.getlist('to_delete')
     for file in files:
-        file_path = documents_path + slot_url + delimiter + file
+        file_path = slot_url + delimiter + file
         os.remove(file_path)
-
-def render_file_slot(slot_url, folder_names):
-    current_dir = FolderBrowser(documents_path + slot_url + delimiter)
-    current_dir.list_files()
-    file_names = current_dir.file_names
-    return render_template('file_slot/file_slot.html',
-                            menu = folder_names,
-                            file_names = file_names
-                          )

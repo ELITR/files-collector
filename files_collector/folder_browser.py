@@ -50,6 +50,7 @@ class FolderBrowser(object):
         return parrent_url
 
     def list_files(self):
+        self.file_names = []
         for file in os.listdir(self.root_folder):
             file_path = self.root_folder + file
             if os.path.isfile(file_path):

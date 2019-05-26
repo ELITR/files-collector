@@ -8,22 +8,19 @@ bp = Blueprint('file_slot', __name__, url_prefix='/')
 documents_path = Paths().documents_path
 delimiter = Paths().delimiter
 
-@bp.route('/presentations/<slot_url>/', methods=('GET', 'POST'))
-def file_slot(slot_url):
-    root = FolderBrowser(documents_path)
-    root.list_folders()
-    folder_names = root.folder_names
+@bp.route('<regex("(.*?)"):url>/', methods=('GET', 'POST'))
+def file_slot(url):
+    fd = FolderBrowser(documents_path)
+    fd.set_root_from_url(request.path)
+    fd.list_folders()
+    folder_names = fd.get_urls_from_paths()
+    fd.list_files()
+    file_names = fd.file_names
 
-    if request.method == 'POST' and slot_url in folder_names:
-        if 'delete' in request.form:
-            delete_files(slot_url)
-        else:
-            upload_file(slot_url)
-
-    if slot_url in folder_names:
-        return render_file_slot(slot_url, folder_names)
-    else:
-        return abort(404)
+    return render_template('file_slot/file_slot.html',
+                            menu = folder_names,
+                            file_names = file_names
+                          )
 
 def upload_file(slot_url):
     file = request.files['file']

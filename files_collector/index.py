@@ -6,5 +6,5 @@ bp = Blueprint('index', __name__, url_prefix='/')
 @bp.route('', methods=['GET'])
 def index():
     fd = FolderBrowser(Paths().documents_path)
-    menu = fd.folder_names
+    menu = fd.get_urls_from_paths()
     return render_template('/index.html', menu = menu)

@@ -26,7 +26,7 @@ def load_blueprints(app):
     app.register_blueprint(file_slot.bp)
 
     from . import downloader
-    app.register_blueprint(downloader.bp)
+    #app.register_blueprint(downloader.bp)
 
     from . import index
     app.register_blueprint(index.bp)

@@ -16,7 +16,7 @@ def upload_daily_schedule():
         flash(create_folders(file_path))
 
     fd = FolderBrowser(Paths().documents_path)
-    menu = fd.folder_names
+    menu = fd.get_urls_from_paths()
     return render_template('daily_schedule/daily_schedule.html', menu = menu)
 
 def create_folders(daily_schedule):

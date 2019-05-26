@@ -21,7 +21,7 @@ class FolderBrowser(object):
 
         url = url.replace("/presentations", "")
         url = url.split("/")
-        url = [x + delimiter for i,x in enumerate(url) if i > 1 and x != '']
+        url = [x + delimiter for i,x in enumerate(url) if i > 0 and x != '']
         path = ''.join(url)
         path = documents_path + path
         self.root_folder = path
@@ -33,7 +33,7 @@ class FolderBrowser(object):
 
 
         parrent_url = self.get_parrent_url(self.root_folder)
-        if parrent_url != '/data-collector/presentations/':
+        if parrent_url != Paths().file_slot_url:
             urls.append(parrent_url)
 
         return urls
@@ -41,7 +41,7 @@ class FolderBrowser(object):
     def get_url(self, path):
         url = path.replace(Paths().documents_path, '')
         url = url.replace(Paths().delimiter, '/')
-        return '/data-collector/presentations/' + url
+        return Paths().file_slot_url + url
 
     def get_parrent_url(self, path):
         url = self.get_url(path)

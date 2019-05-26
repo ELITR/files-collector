@@ -3,29 +3,29 @@ from .folder_browser import FolderBrowser
 from .auth import auth
 from .paths import Paths
 
-bp = Blueprint('downloader', __name__, url_prefix='/presentations/<slot_url>/<filename>')
+bp = Blueprint('downloader', __name__, url_prefix='/<regex("(.*?)"):url>')
 
-@bp.route('/')
-def downloader(slot_url, filename):
-    documents_folder = Paths().documents_path
-    delimiter = Paths().delimiter
-    root = FolderBrowser(documents_folder)
-    root.list_folders()
-    folder_names = root.folder_names
+@bp.route('<regex("(.*?)[.].+"):filename>/')
+def downloader(url, filename):
+    i = filename.rfind('/') + 1
+    url = url + '/' + filename[:i]
+    filename = filename[i:]
 
-    if slot_url in folder_names:
-        current_dir = FolderBrowser(documents_folder + slot_url + delimiter)
-        current_dir.list_files()
-        files_list = current_dir.file_names
+    fd = FolderBrowser(Paths().documents_path)
+    fd.set_root_from_url(url)
 
-    if slot_url in folder_names and filename in files_list:
-        path = documents_folder + slot_url + delimiter + filename
-        if needs_auth(slot_url):
-            return send_file_with_auth(path)
-        else:
-            return send_file(path, as_attachment = True)
+    file_slot = get_file_slot(url)
+    path = fd.root_folder + filename
+
+    if needs_auth(file_slot):
+        return send_file_with_auth(path)
     else:
-        return abort(404)
+        return send_file(path, as_attachment = True)
+
+def get_file_slot(url):
+    i = url.rfind('/')
+    j = url[:i-1].rfind('/') + 1
+    return url[j:i]
 
 @auth.login_required
 def send_file_with_auth(path):

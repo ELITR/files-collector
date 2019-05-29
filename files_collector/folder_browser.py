@@ -35,6 +35,8 @@ class FolderBrowser(object):
         parrent_url = self.get_parrent_url(self.root_folder)
         if parrent_url != Paths().file_slot_url:
             urls.append(parrent_url)
+        else: #top level folders
+            urls.append('/')
 
         return urls
 
@@ -55,7 +57,7 @@ class FolderBrowser(object):
         for index, url in enumerate(urls):
             i = url.rfind('/')
             j = url[:i-1].rfind('/') + 1
-            if url == parrent_url:
+            if url == parrent_url or url == '/':
                 urls[index] = '/..'
             else:
                 urls[index] = './' + url[j:i]

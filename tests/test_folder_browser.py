@@ -45,7 +45,7 @@ class TestFolderBrowser(unittest.TestCase):
         os.mkdir("D:\\\\prezentace\\p1\\b\\")
 
         fd = FolderBrowser("D:\\\\prezentace\\p1\\")
-        urls = ['/presentations/p1/a/', '/presentations/p1/b/']
+        urls = ['/presentations/p1/a/', '/presentations/p1/b/', '/']
         assert fd.get_urls_from_paths() == urls
 
         fd = FolderBrowser("D:\\\\prezentace\\p1\\a\\")
@@ -73,7 +73,7 @@ class TestFolderBrowser(unittest.TestCase):
         assert fd.get_last_url_part() == names
 
         fd = FolderBrowser("D:\\\\prezentace\\p1\\")
-        names = ['./a','./b']
+        names = ['./a','./b', '/..']
         assert fd.get_last_url_part() == names
 
         fd = FolderBrowser("D:\\\\prezentace\\")

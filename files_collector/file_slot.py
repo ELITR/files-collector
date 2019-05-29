@@ -17,8 +17,10 @@ def file_slot(url):
         fd.list_folders()
     except FileNotFoundError:
         return abort(404)
-        
-    folder_names = fd.get_urls_from_paths()
+
+    paths = fd.get_urls_from_paths()
+    names = fd.get_last_url_part()
+    menu = zip(paths, names)
     fd.list_files()
     file_names = fd.file_names
 
@@ -31,14 +33,9 @@ def file_slot(url):
     fd.list_files()
     file_names = fd.file_names
     return render_template('file_slot/file_slot.html',
-                            menu = folder_names,
+                            menu = menu,
                             file_names = file_names
                           )
-
-def get_file_slot(url):
-    i = url.rfind('/')
-    j = url[:i-1].rfind('/') + 1
-    return url[j:i]
 
 def upload_file(slot_url):
     file = request.files['file']

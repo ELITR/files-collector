@@ -56,3 +56,32 @@ class TestFolderBrowser(unittest.TestCase):
         os.rmdir("D:\\\\prezentace\\p1\\b\\")
         os.rmdir("D:\\\\prezentace\\p1\\")
         os.rmdir("D:\\\\prezentace\\p2\\")
+
+    def test_get_last_url_part(client):
+        os.mkdir("D:\\\\prezentace\\p1\\")
+        os.mkdir("D:\\\\prezentace\\p2\\")
+        os.mkdir("D:\\\\prezentace\\p1\\a\\")
+        os.mkdir("D:\\\\prezentace\\p1\\a\\x\\")
+        os.mkdir("D:\\\\prezentace\\p1\\b\\")
+
+        fd = FolderBrowser("D:\\\\prezentace\\p1\\a\\x\\")
+        names = ['/..']
+        assert fd.get_last_url_part() == names
+
+        fd = FolderBrowser("D:\\\\prezentace\\p1\\a\\")
+        names = ['./x', '/..']
+        assert fd.get_last_url_part() == names
+
+        fd = FolderBrowser("D:\\\\prezentace\\p1\\")
+        names = ['./a','./b']
+        assert fd.get_last_url_part() == names
+
+        fd = FolderBrowser("D:\\\\prezentace\\")
+        names = ['./p1','./p2', '/..']
+        assert fd.get_last_url_part() == names
+
+        os.rmdir("D:\\\\prezentace\\p1\\a\\x\\")
+        os.rmdir("D:\\\\prezentace\\p1\\a\\")
+        os.rmdir("D:\\\\prezentace\\p1\\b\\")
+        os.rmdir("D:\\\\prezentace\\p1\\")
+        os.rmdir("D:\\\\prezentace\\p2\\")

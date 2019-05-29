@@ -49,6 +49,19 @@ class FolderBrowser(object):
         parrent_url = url[:index + 1]
         return parrent_url
 
+    def get_last_url_part(self):
+        urls = self.get_urls_from_paths()
+        parrent_url = self.get_parrent_url(self.root_folder)
+        for index, url in enumerate(urls):
+            i = url.rfind('/')
+            j = url[:i-1].rfind('/') + 1
+            if url == parrent_url:
+                urls[index] = '/..'
+            else:
+                urls[index] = './' + url[j:i]
+
+        return urls
+
     def list_files(self):
         self.file_names = []
         for file in os.listdir(self.root_folder):

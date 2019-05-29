@@ -2,8 +2,9 @@ from flask import Blueprint, render_template, request, flash
 from werkzeug.utils import secure_filename
 from .folder_structure import FolderStructure
 from .folder_browser import FolderBrowser
-import mimetypes
 from .paths import Paths
+from .sidebar import Sidebar
+import mimetypes
 
 bp = Blueprint('daily_schedule', __name__, url_prefix='/daily_schedule')
 
@@ -16,10 +17,7 @@ def upload_daily_schedule():
         flash(create_folders(file_path))
 
     fd = FolderBrowser(Paths().documents_path)
-    paths = fd.get_urls_from_paths()
-    names = fd.get_last_url_part()
-    menu = zip(paths, names)
-    return render_template('daily_schedule/daily_schedule.html', menu = menu)
+    return render_template('daily_schedule/daily_schedule.html', menu = Sidebar(fd).menu)
 
 def create_folders(daily_schedule):
     message = 'Daily schedule has been uploaded successfully'

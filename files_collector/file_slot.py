@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, abort
 from werkzeug.utils import secure_filename
 from .folder_browser import FolderBrowser
 from .paths import Paths
+from .sidebar import Sidebar
 import os
 
 bp = Blueprint('file_slot', __name__, url_prefix='/')
@@ -19,8 +20,6 @@ def file_slot(url):
         return abort(404)
 
     paths = fd.get_urls_from_paths()
-    names = fd.get_last_url_part()
-    menu = zip(paths, names)
     fd.list_files()
     file_names = fd.file_names
 
@@ -33,7 +32,7 @@ def file_slot(url):
     fd.list_files()
     file_names = fd.file_names
     return render_template('file_slot/file_slot.html',
-                            menu = menu,
+                            menu = Sidebar(fd).menu,
                             file_names = file_names
                           )
 

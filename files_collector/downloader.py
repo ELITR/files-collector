@@ -18,7 +18,7 @@ def downloader(url, filename):
     path = fd.root_folder + filename
 
     try:
-        if needs_auth(file_slot):
+        if needs_auth(file_slot, fd.root_folder):
             return send_file_with_auth(path)
         else:
             return send_file(path, as_attachment = True)
@@ -34,8 +34,9 @@ def get_file_slot(url):
 def send_file_with_auth(path):
     return send_file(path, as_attachment = True)
 
-def needs_auth(slot):
-    config = Paths().config_path
+def needs_auth(slot, dir):
+    #config = Paths().config_path
+    config = dir + 'config.conf'
     try:
         with open(config, 'r') as conf:
             for line in conf:

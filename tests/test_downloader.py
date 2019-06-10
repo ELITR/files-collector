@@ -68,5 +68,8 @@ def test_download_with_auth(client):
     res = client.get('/presentations/prednaska_1/a/')
     assert res.status_code == 404
 
+    with open('D:\\\\prezentace\\prednaska_1\\config.conf', 'a') as f:
+        f.write("prednaska_1:9F735E0DF9A1DDC702BF0A1A7B83033F9F7153A00C29DE82CEDADC9957289B05")
+
     with client.get('/presentations/prednaska_1/test_download_file.pptx/') as res:
         assert res.status_code == 401

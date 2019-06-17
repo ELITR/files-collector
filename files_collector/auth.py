@@ -6,6 +6,30 @@ from .folder_browser import FolderBrowser
 
 auth = HTTPBasicAuth()
 
+def needs_auth(url):
+    #config = Paths().config_path
+    slot = get_file_slot(url)
+    dir = get_current_dir(url)
+    config = dir + 'config.conf'
+    try:
+        with open(config, 'r') as conf:
+            for line in conf:
+                line = line.split(":")
+                if line[0] == slot:
+                    return True
+    except FileNotFoundError:
+        return False
+
+def get_current_dir(url):
+    fd = FolderBrowser(Paths().documents_path)
+    fd.set_root_from_url(url)
+    return fd.root_folder
+
+def get_file_slot(url):
+    i = url.rfind('/')
+    j = url[:i-1].rfind('/') + 1
+    return url[j:i]
+
 @auth.verify_password
 def verify_pw(username, password):
     source = hashlib.sha256()

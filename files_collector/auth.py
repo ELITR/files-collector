@@ -40,10 +40,12 @@ def verify_pw(username, password):
 def get_target_pw(username):
     filename = request.path[0:len(request.path)-1]
     i = filename.rfind('/') + 1
-    url = filename[:i]
+    url = filename#[:i]
+    if '.' in url:
+        url = filename[:i]
+        
     fd = FolderBrowser(Paths().documents_path)
     fd.set_root_from_url(url)
-    print(fd.root_folder)
 
     #conf = Paths().config_path
     conf = fd.root_folder + 'config.conf'

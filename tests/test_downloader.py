@@ -9,6 +9,8 @@ def test_incorrect_download(client):
     client.post('/daily_schedule/', data=data)
     res = client.get('/presentations/a/testovaci_prezentace.pptx/')
     assert res.status_code == 404
+    assert 'This file does not exist' in res.get_data(as_text=True)
+    assert '<a href="/presentations/a/">parrent folder</a>' in res.get_data(as_text=True)
 
     res = client.get('/presentations/prednaska_1/testovaci_prezentace.pptx/404/')
     assert res.status_code == 404

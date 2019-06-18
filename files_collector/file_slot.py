@@ -10,6 +10,10 @@ bp = Blueprint('file_slot', __name__, url_prefix='/')
 documents_path = Paths().documents_path
 delimiter = Paths().delimiter
 
+@bp.errorhandler(404)
+def page_not_found(e):
+    return render_template('file_slot/slot_not_found.html'), 404
+
 @bp.route('<regex("(.*?)/"):url>', methods=('GET', 'POST'))
 def file_slot(url):
     fd = FolderBrowser(documents_path)

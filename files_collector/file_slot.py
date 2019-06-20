@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, abort
+from flask import Blueprint, render_template, request, abort, flash
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import HTTPException
 from .folder_browser import FolderBrowser
 from .paths import Paths
 from .sidebar import Sidebar
@@ -37,9 +38,13 @@ def file_slot(url):
 
 
 def upload_file(slot_url):
-    file = request.files['file']
-    file_path = slot_url + delimiter + secure_filename(file.filename)
-    file.save(file_path)
+    try:
+        file = request.files['file']
+    except HTTPException:
+        flash('Please click on "browse" to select a file')
+    else:
+        file_path = slot_url + delimiter + secure_filename(file.filename)
+        file.save(file_path)
 
 def delete_files(slot_url):
     files = request.form.getlist('to_delete')

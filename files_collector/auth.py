@@ -13,10 +13,10 @@ def needs_auth(url):
     config = dir + 'config.conf'
     try:
         with open(config, 'r') as conf:
-            for line in conf:
-                line = line.split(":")
-                if line[0] == slot:
-                    return True
+            # for line in conf:
+            #     line = line.split(":")
+            #     if line[0] == slot:
+            return True
     except FileNotFoundError:
         return False
 
@@ -43,7 +43,7 @@ def get_target_pw(username):
     url = filename#[:i]
     if '.' in url:
         url = filename[:i]
-        
+
     fd = FolderBrowser(Paths().documents_path)
     fd.set_root_from_url(url)
 
@@ -54,5 +54,5 @@ def get_target_pw(username):
         for line in c:
             line = line.replace(" ", "")
             line = line.replace("\n", "").split(":")
-            if line[0] == username == url_username:
+            if line[0] == username:
                 return line[1].lower()

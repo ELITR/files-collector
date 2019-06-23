@@ -1,43 +1,35 @@
-from flask import Blueprint, send_file, abort
+from flask import Blueprint, send_file, abort, render_template, request
 from .folder_browser import FolderBrowser
-from .auth import auth
+from .auth import auth, needs_auth
 from .paths import Paths
 
-bp = Blueprint('downloader', __name__, url_prefix='/presentations/<slot_url>/<filename>')
+bp = Blueprint('downloader', __name__, url_prefix='/<regex("(.*?)"):url>')
 
-@bp.route('/')
-def downloader(slot_url, filename):
-    documents_folder = Paths().documents_path
-    delimiter = Paths().delimiter
-    root = FolderBrowser(documents_folder)
-    root.list_folders()
-    folder_names = root.folder_names
+@bp.errorhandler(404)
+def page_not_found(e):
+    filename = request.path[0:len(request.path)-1]
+    i = filename.rfind('/') + 1
+    url = filename[:i]
+    return render_template('downloader/file_not_found.html', url = url), 404
 
-    if slot_url in folder_names:
-        current_dir = FolderBrowser(documents_folder + slot_url + delimiter)
-        current_dir.list_files()
-        files_list = current_dir.file_names
+@bp.route('<regex("(.*?)[.].+"):filename>/')
+def downloader(url, filename):
+    i = filename.rfind('/') + 1
+    url = url + '/' + filename[:i]
+    filename = filename[i:]
 
-    if slot_url in folder_names and filename in files_list:
-        path = documents_folder + slot_url + delimiter + filename
-        if needs_auth(slot_url):
+    fd = FolderBrowser(Paths().documents_path)
+    fd.set_root_from_url(url)
+    path = fd.root_folder + filename
+
+    try:
+        if needs_auth(url):
             return send_file_with_auth(path)
         else:
             return send_file(path, as_attachment = True)
-    else:
+    except FileNotFoundError:
         return abort(404)
 
 @auth.login_required
 def send_file_with_auth(path):
     return send_file(path, as_attachment = True)
-
-def needs_auth(slot):
-    config = Paths().config_path
-    try:
-        with open(config, 'r') as conf:
-            for line in conf:
-                line = line.split(":")
-                if line[0] == slot:
-                    return True
-    except FileNotFoundError:
-        return False

@@ -22,6 +22,7 @@ def test_incorrect_url(client):
     client.post('/daily_schedule/', data=data)
     res = client.get('/presentations/prednaska_4/')
     assert res.status_code == 404
+    assert 'This folder does not exist' in res.get_data(as_text=True)
     os.remove('D:\\program_dne\\program_dne.txt') #Does not exist -> Exception
     os.rmdir('D:\\\\prezentace\\prednaska_1')
     os.rmdir('D:\\\\prezentace\\prednaska_2')

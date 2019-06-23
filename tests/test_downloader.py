@@ -7,10 +7,12 @@ def test_incorrect_download(client):
         'file': (file, 'program_dne.txt')
     }
     client.post('/daily_schedule/', data=data)
-    res = client.get('/data-collector/a/testovaci_prezentace.pptx/')
+    res = client.get('/presentations/a/testovaci_prezentace.pptx/')
     assert res.status_code == 404
+    assert 'This file does not exist' in res.get_data(as_text=True)
+    assert '<a href="/presentations/a/">parrent folder</a>' in res.get_data(as_text=True)
 
-    res = client.get('/data-collector/prednaska_1/testovaci_prezentace.pptx/404')
+    res = client.get('/presentations/prednaska_1/testovaci_prezentace.pptx/404/')
     assert res.status_code == 404
 
 def test_download_no_conf(client):
@@ -67,6 +69,9 @@ def test_download_with_auth(client):
 
     res = client.get('/presentations/prednaska_1/a/')
     assert res.status_code == 404
+
+    with open('D:\\\\prezentace\\prednaska_1\\config.conf', 'a') as f:
+        f.write("prednaska_1:9F735E0DF9A1DDC702BF0A1A7B83033F9F7153A00C29DE82CEDADC9957289B05")
 
     with client.get('/presentations/prednaska_1/test_download_file.pptx/') as res:
         assert res.status_code == 401

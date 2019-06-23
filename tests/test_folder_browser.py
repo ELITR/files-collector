@@ -26,11 +26,11 @@ class TestFolderBrowser(unittest.TestCase):
     def test_set_root_from_url(client):
         fd = FolderBrowser('D:\\prezentace\\')
 
-        url = '/data-collecto/presentations/prezentace1/'
+        url = '/presentations/prezentace1/'
         fd.set_root_from_url(url)
         assert fd.root_folder == 'D:\\\\prezentace\\prezentace1\\'
 
-        url = '/data-collector/presentations/prezentace1/test/'
+        url = '/presentations/prezentace1/test/'
         fd.set_root_from_url(url)
         assert fd.root_folder == 'D:\\\\prezentace\\prezentace1\\test\\'
 
@@ -45,13 +45,42 @@ class TestFolderBrowser(unittest.TestCase):
         os.mkdir("D:\\\\prezentace\\p1\\b\\")
 
         fd = FolderBrowser("D:\\\\prezentace\\p1\\")
-        urls = ['/data-collector/presentations/p1/a/', '/data-collector/presentations/p1/b/']
+        urls = ['/presentations/p1/a/', '/presentations/p1/b/', '/']
         assert fd.get_urls_from_paths() == urls
 
         fd = FolderBrowser("D:\\\\prezentace\\p1\\a\\")
-        urls = ['/data-collector/presentations/p1/']
+        urls = ['/presentations/p1/']
         assert fd.get_urls_from_paths() == urls
 
+        os.rmdir("D:\\\\prezentace\\p1\\a\\")
+        os.rmdir("D:\\\\prezentace\\p1\\b\\")
+        os.rmdir("D:\\\\prezentace\\p1\\")
+        os.rmdir("D:\\\\prezentace\\p2\\")
+
+    def test_get_last_url_part(client):
+        os.mkdir("D:\\\\prezentace\\p1\\")
+        os.mkdir("D:\\\\prezentace\\p2\\")
+        os.mkdir("D:\\\\prezentace\\p1\\a\\")
+        os.mkdir("D:\\\\prezentace\\p1\\a\\x\\")
+        os.mkdir("D:\\\\prezentace\\p1\\b\\")
+
+        fd = FolderBrowser("D:\\\\prezentace\\p1\\a\\x\\")
+        names = ['/..']
+        assert fd.get_last_url_part() == names
+
+        fd = FolderBrowser("D:\\\\prezentace\\p1\\a\\")
+        names = ['./x', '/..']
+        assert fd.get_last_url_part() == names
+
+        fd = FolderBrowser("D:\\\\prezentace\\p1\\")
+        names = ['./a','./b', '/..']
+        assert fd.get_last_url_part() == names
+
+        fd = FolderBrowser("D:\\\\prezentace\\")
+        names = ['./p1','./p2', '/..']
+        assert fd.get_last_url_part() == names
+
+        os.rmdir("D:\\\\prezentace\\p1\\a\\x\\")
         os.rmdir("D:\\\\prezentace\\p1\\a\\")
         os.rmdir("D:\\\\prezentace\\p1\\b\\")
         os.rmdir("D:\\\\prezentace\\p1\\")

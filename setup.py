@@ -8,6 +8,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'flask',
+        'flask-httpauth'
     ],
     description = 'A simple web-based tool for collecting supplementary files for presentations and speeches for the project ELITR (elitr.eu).'
 )

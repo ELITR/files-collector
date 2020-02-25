@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, abort, flash
+from flask import Blueprint, render_template, request, abort, flash, redirect
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from .folder_browser import FolderBrowser
@@ -25,9 +25,6 @@ def file_slot(url):
     except FileNotFoundError:
         return abort(404)
 
-    paths = fd.get_urls_from_paths()
-
-    print(f"Received url: {url}")
     dirs = url.strip("/").split("/")
 
     if (len(dirs) == 2):
@@ -42,19 +39,18 @@ def file_slot(url):
     elif request.method == 'POST' and 'delete' in request.form:
         delete_files(fd.root_folder)
     elif request.method == 'POST':
+        if  'file' not in request.files or request.files['file'].filename in ["", "/"]:
+                flash('Please select a file to upload')
+                return redirect(request.url)
         upload_file(fd.root_folder)
 
     return render(fd, is_public)
 
 
 def upload_file(slot_url):
-    try:
-        file = request.files['file']
-    except HTTPException:
-        flash('Please click on "browse" to select a file')
-    else:
-        file_path = slot_url + delimiter + secure_filename(file.filename)
-        file.save(file_path)
+    file = request.files['file']
+    file_path = slot_url + delimiter + secure_filename(file.filename)
+    file.save(file_path)
 
 def delete_files(slot_url):
     files = request.form.getlist('to_delete')

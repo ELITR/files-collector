@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="content">
+<div class="content" style="background-color: {{'lightgreen' if is_public else 'salmon'}};">
+
+      {% if is_public %}
+        <b>This is a public directory</b>
+      {% else %}
+        <b>This is a confidential directory</b>
+      {% endif %}
       {% if file_names != [] %}
         <p>This folder contains files:</p>
           <form method="post" enctype=multipart/form-data>

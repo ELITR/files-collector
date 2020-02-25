@@ -27,14 +27,24 @@ def file_slot(url):
 
     paths = fd.get_urls_from_paths()
 
+    print(f"Received url: {url}")
+    dirs = url.strip("/").split("/")
+
+    if (len(dirs) == 2):
+        return render_template('file_slot/event_slot.html',
+                                menu = Sidebar(fd).menu,
+                                event_name = dirs[1])
+                                
+    assert(len(dirs) == 3)
+    is_public = (dirs[2] == 'public')
     if needs_auth(url) and request.method == 'POST' and 'delete' in request.form:
-        return render_with_delete(fd)
+        return render_with_delete(fd, is_public)
     elif request.method == 'POST' and 'delete' in request.form:
         delete_files(fd.root_folder)
     elif request.method == 'POST':
         upload_file(fd.root_folder)
 
-    return render(fd)
+    return render(fd, is_public)
 
 
 def upload_file(slot_url):
@@ -56,19 +66,21 @@ def delete_files(slot_url):
             pass
 
 @auth.login_required
-def render_with_delete(fd):
+def render_with_delete(fd, is_public):
     delete_files(fd.root_folder)
     fd.list_files()
     file_names = fd.file_names
     return render_template('file_slot/file_slot.html',
                             menu = Sidebar(fd).menu,
-                            file_names = file_names
+                            file_names = file_names,
+                            is_public = is_public
                           )
 
-def render(fd):
+def render(fd, is_public):
     fd.list_files()
     file_names = fd.file_names
     return render_template('file_slot/file_slot.html',
                             menu = Sidebar(fd).menu,
-                            file_names = file_names
+                            file_names = file_names,
+                            is_public = is_public
                           )

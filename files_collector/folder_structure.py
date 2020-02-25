@@ -22,7 +22,7 @@ class FolderStructure(object):
         paths = self.get_paths()
         for path in paths:
             try:
-                os.mkdir(path)
+                os.makedirs(path, exist_ok=True)
             except FileExistsError:
                 continue
 
@@ -41,7 +41,8 @@ class FolderStructure(object):
         slots = []
         for line in self.contents:
             line = line.split('\t')
-            slots.append(line[0])
+            slots.append(line[0] + "/public")
+            slots.append(line[0] + "/confidential")
 
         return slots
 

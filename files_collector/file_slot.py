@@ -15,7 +15,7 @@ delimiter = Paths().delimiter
 def page_not_found(e):
     return render_template('file_slot/slot_not_found.html'), 404
 
-@bp.route('<regex("(.*?)/"):url>', methods=('GET', 'POST'))
+@bp.route('<regex("(.*)\/$"):url>', methods=('GET', 'POST'))
 def file_slot(url):
     fd = FolderBrowser(documents_path)
     fd.set_root_from_url(request.path)

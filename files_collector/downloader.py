@@ -12,7 +12,7 @@ def page_not_found(e):
     url = filename[:i]
     return render_template('downloader/file_not_found.html', url = url), 404
 
-@bp.route('<regex("(.*?)[.].+"):filename>/')
+@bp.route('<regex("(.*[^\/])$"):filename>') 
 def downloader(url, filename):
     i = filename.rfind('/') + 1
     url = url + '/' + filename[:i]
@@ -27,7 +27,7 @@ def downloader(url, filename):
             return send_file_with_auth(path)
         else:
             return send_file(path, as_attachment = True)
-    except FileNotFoundError:
+    except (FileNotFoundError, IsADirectoryError) as e:
         return abort(404)
 
 @auth.login_required

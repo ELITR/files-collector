@@ -6,6 +6,7 @@ from .paths import Paths
 from .sidebar import Sidebar
 from .auth import auth, needs_auth
 import os
+import urllib.request
 
 bp = Blueprint('file_slot', __name__, url_prefix='/')
 documents_path = Paths().documents_path
@@ -39,10 +40,13 @@ def file_slot(url):
     elif request.method == 'POST' and 'delete' in request.form:
         delete_files(fd.root_folder)
     elif request.method == 'POST':
-        if  'file' not in request.files or request.files['file'].filename in ["", "/"]:
+        if  ('file' not in request.files or request.files['file'].filename in ["", "/"]) and 'url' not in request.form:
                 flash('Please select a file to upload')
                 return redirect(request.url)
-        upload_file(fd.root_folder)
+        if 'file' in request.files:
+            upload_file(fd.root_folder)
+        else:
+            upload_file_from_url(fd.root_folder, request.form['url'])
 
     return render(fd, is_public)
 
@@ -51,6 +55,16 @@ def upload_file(slot_url):
     file = request.files['file']
     file_path = slot_url + delimiter + secure_filename(file.filename)
     file.save(file_path)
+    
+def upload_file_from_url(slot_url, file_url):
+    try:
+        filename = os.path.basename(file_url)
+        file_path = slot_url + delimiter + secure_filename(filename)
+        urllib.request.urlretrieve(file_url, file_path)
+    except Exception as e:
+        flash(e)
+       # flash("File upload via URL failed")
+
 
 def delete_files(slot_url):
     files = request.form.getlist('to_delete')

@@ -4,7 +4,7 @@ services:
       build:
         target: prod
       ports:
-        - 1234:8000
+        - 80:8000
       environment:
         FLASK_DEBUG: 0
       volumes:

@@ -11,4 +11,4 @@ FROM install as dev
 CMD flask run --host=0.0.0.0
 
 FROM install as prod
-CMD ["gunicorn", "-e", "SCRIPT_NAME=/data-collector", "-e", "APPLICATION_ROOT=/data-collector", "-b", "0.0.0.0", "flask-app.app:app" ]
+CMD ["gunicorn", "-b", "0.0.0.0", "flask-app.app:app" ]

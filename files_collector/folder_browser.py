@@ -37,8 +37,8 @@ class FolderBrowser(object):
         else: #top level folders
             urls.append('/')
 
-        if os.environ["SCRIPT_NAME"]:
-            urls = list(map(lambda url: os.environ["SCRIPT_NAME"] + url, urls))
+        if os.getenv("APP_ROOT"):
+            urls = list(map(lambda url: os.getenv("APP_ROOT") + url, urls))
 
         return urls
 

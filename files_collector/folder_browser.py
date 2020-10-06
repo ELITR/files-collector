@@ -31,12 +31,14 @@ class FolderBrowser(object):
         for path in self.folder_paths:
             urls.append(self.get_url(path))
 
-
         parrent_url = self.get_parrent_url(self.root_folder)
         if parrent_url != Paths().file_slot_url:
             urls.append(parrent_url)
         else: #top level folders
             urls.append('/')
+
+        if os.environ["SCRIPT_NAME"]:
+            urls = list(map(lambda url: os.environ["SCRIPT_NAME"] + url, urls))
 
         return urls
 

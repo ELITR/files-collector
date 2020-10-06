@@ -1,11 +1,15 @@
 version: "3.8"
 services:
   flask:
+      build:
+        target: prod
       ports:
-        - 80:5000
+        - 1234:8000
       environment:
         FLASK_DEBUG: 0
-      volumes: 
-        - data-volume:/home/master
+      volumes:
+        - type: volume
+          source: data-volume
+          target: /home/master
 volumes:
   data-volume:

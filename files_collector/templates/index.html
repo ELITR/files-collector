@@ -3,7 +3,7 @@
 {% block content %}
     <div class="content">
       <p>Welcome to files collector!</p>
-      <p>Click <a href="/daily_schedule">here</a> to create new folders
+      <p>Click <a href="{{ url_for('daily_schedule.upload_daily_schedule') }}"">here</a> to create new folders
       or choose from existing folders on the left to upload files.</p>
     </div>
     <div class="sidebar">

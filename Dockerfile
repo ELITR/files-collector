@@ -1,11 +1,14 @@
-FROM python:3.8 as install
-
+FROM python:3.8.6-alpine as install
+RUN apk add --update --no-cache uwsgi uwsgi-python3
 COPY ./requirements.txt /flask-app/requirements.txt
 RUN pip install -r /flask-app/requirements.txt
 COPY ./files_collector /flask-app
-EXPOSE 5000/tcp
 RUN mkdir -p /home/master/prezentace
 RUN mkdir -p /home/master/program_dne
 ENV FLASK_APP /flask-app/__init__.py 
 
+FROM install as dev
 CMD flask run --host=0.0.0.0
+
+FROM install as prod
+CMD ["gunicorn", "-e", "SCRIPT_NAME=/data-collector", "-e", "APPLICATION_ROOT=/data-collector", "-b", "0.0.0.0", "flask-app.app:app" ]

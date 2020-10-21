@@ -1,6 +1,8 @@
 # files-collector
 A simple web-based tool for collecting supplementary files for presentations and speeches for the project ELITR (elitr.eu).
 
+## Preparation
+It might be necessary to create the folder `./collected-data` manually.
 
 ## How it works
 `docker-compose up --build` starts the project with hot-reloading for development. `start-prod.sh` starts the project in production mode. The collected files can be found in the `collected-data` directory (the directory is bind-mounted to the container).

@@ -8,8 +8,8 @@ services:
       environment:
         FLASK_DEBUG: 0
       volumes:
-        - type: volume
-          source: data-volume
+        - type: bind
+          source: ./collected-data 
           target: /home/master
 volumes:
   data-volume:
